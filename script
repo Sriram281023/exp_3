@@ -1,0 +1,26 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const resetButton = document.querySelector('button[type="reset"]');
+
+    form.addEventListener('submit', function(event) {
+        
+        event.preventDefault(); 
+        const phoneInput = document.getElementById('phone');
+        const emailInput = document.getElementById('email');
+        const photoInput = document.getElementById('Photo');
+        const signatureInput = document.getElementById('signature');
+        const allowedFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+        if (photoInput.files.length > 0 && !allowedFileTypes.includes(photoInput.files[0].type)) {
+            alert('Please upload a valid image (JPG, JPEG, PNG) or PDF for Photo.');
+            return; 
+        }
+        if (signatureInput.files.length > 0 && !allowedFileTypes.includes(signatureInput.files[0].type)) {
+            alert('Please upload a valid image (JPG, JPEG, PNG) or PDF for Signature.');
+            return; 
+        }
+        alert('Form submitted successfully!'); 
+        resetButton.addEventListener('click', function() {
+        alert('Form fields have been reset.'); 
+        });
+    });
+});
