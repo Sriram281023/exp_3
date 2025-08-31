@@ -1,26 +1,50 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form');
-    const resetButton = document.querySelector('button[type="reset"]');
+function validateForm() {
+  const form = document.getElementById('registrationForm');
+  let valid = true;
 
-    form.addEventListener('submit', function(event) {
-        
-        event.preventDefault(); 
-        const phoneInput = document.getElementById('phone');
-        const emailInput = document.getElementById('email');
-        const photoInput = document.getElementById('Photo');
-        const signatureInput = document.getElementById('signature');
-        const allowedFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-        if (photoInput.files.length > 0 && !allowedFileTypes.includes(photoInput.files[0].type)) {
-            alert('Please upload a valid image (JPG, JPEG, PNG) or PDF for Photo.');
-            return; 
-        }
-        if (signatureInput.files.length > 0 && !allowedFileTypes.includes(signatureInput.files[0].type)) {
-            alert('Please upload a valid image (JPG, JPEG, PNG) or PDF for Signature.');
-            return; 
-        }
-        alert('Form submitted successfully!'); 
-        resetButton.addEventListener('click', function() {
-        alert('Form fields have been reset.'); 
-        });
-    });
-});
+  // Clear previous errors
+  document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+  const fields = [
+    "firstName", "lastName", "fatherName", "motherName",
+    "dob", "gender", "address", "qualification",
+    "education", "photo", "signature", "email", "phone"
+  ];
+
+  fields.forEach(field => {
+    const value = form[field].value.trim();
+    if (value === "") {
+      document.getElementById(field + "Error").textContent = "This field is required.";
+      valid = false;
+    }
+  });
+
+  // Email validation
+  const email = form.email.value.trim();
+  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+  if (email && !emailPattern.test(email)) {
+    document.getElementById("emailError").textContent = "Invalid email format.";
+    valid = false;
+  }
+
+  // Phone validation
+  const phone = form.phone.value.trim();
+  if (phone && (phone.length !== 10 || isNaN(phone))) {
+    document.getElementById("phoneError").textContent = "Phone must be 10 digits.";
+    valid = false;
+  }
+
+  if (!valid) return false;
+
+  // Show submitted details
+  let resultHTML = "<h3>Submitted Details:</h3><ul>";
+  fields.forEach(field => {
+    if (field !== "photo" && field !== "signature") {
+      resultHTML += <li><strong>${field}:</strong> ${form[field].value}</li>;
+    }
+  });
+  resultHTML += "</ul>";
+  document.getElementById("result").innerHTML = resultHTML;
+
+  return false; // prevent actual form submission
+}
