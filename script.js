@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
     form.addEventListener('submit', function(event) {
         
         event.preventDefault(); 
-	// changes to the code
         const phoneInput = document.getElementById('phone');
         const emailInput = document.getElementById('email');
         const photoInput = document.getElementById('Photo');
