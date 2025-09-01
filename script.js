@@ -2,7 +2,6 @@ function validateForm() {
   const form = document.getElementById('registrationForm');
   let valid = true;
 
-  // Clear previous errors
   document.querySelectorAll(".error").forEach(e => e.textContent = "");
 
   const fields = [
